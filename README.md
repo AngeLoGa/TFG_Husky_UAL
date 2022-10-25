@@ -132,13 +132,3 @@ By the time you set the pose, the robot will spawn in that position, and all the
 
 Now you can use whether the Nav2 Goal tool, or the Nav2Plugin in order to set some waypoints, to make a custom path.
 
-## Others
-
-Convert a ROS1 .bag into an MRPT .rawlog file:
-
-    rosbag2rawlog -w -f world \
-        -c agricobiot_config/config/config_rosbag2rawlog.yml \
-        -o output.rawlog \
-        INPUT.bag
-
-Then open with `RawLogViewer *.rawlog`.
