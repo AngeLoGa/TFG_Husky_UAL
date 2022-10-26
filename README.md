@@ -1,7 +1,18 @@
 # TFG_Husky_UAL
-This is a public repository where there are all the files required for the simulation of my final degree project, as well as some useful instructions to use the package
+This is a public repository which stores all the files required for the simulation of my final degree project, as well as some useful instructions to use the package. Please feel free to make issues regardind doubts whether if is for ROS2 issues, as well as this package.
 
-This is a trial for the foxy branch
+I publish all my project not also to show it to everyone, but also to improve this package and keep learning and improving!
+
+## :pencil2: Authors :pencil2:
+- Ángel López Gázquez, as the main developer.
+- Francisco José Mañas Alvarez, co-tutor of the final degree project, as well as contributor.
+- Jose Luis Blanco Claraco, contributor and overseer of the package.
+
+## :raised_hands: Credits :raised_hands:
+I have to credit my second tutor of the project, Francisco Jose Mañas Alvarez, who most helped me in developing this package, as well as being my master. Also thanks to Jose Luis Blanco, for being interested in the package even without being part of it, and helping me in the task of learning ROS2, C++, Python, Debug, MVSLAM, do I need to follow? (joke JL hehe, I think JC won't let me be that personal sadly).
+
+## DISCLAIMER :exclamation:
+This project was developed using Ubuntu 20.04 with ROS2 Foxy Devel. I may update it with the new Humble edition. Please stay tunned and feel free to contact me via Linkedin or via email if you are interested in it.
 
 ## Install :book:
 
@@ -70,14 +81,9 @@ ros2 launch husky_ual husky_simulation.py
 Terminal B:
 
 ```
-ros2 launch agricobiot_config online_async_launch.py
+ros2 launch husky_ual online_async_launch.py
 ```
 
-Terminal C:
-
-```
-ros2 launch agricobiot_config view_robot_launch.py
-```
 You might want to change the configuration, you can do it adding the map topic using the panels of RVIZ, or you can change the config charging the one provided inside the package agricobiot_config in the directory rviz, named mapping_config.rviz [I'm working at using an argument for the RVIZ_config file or rather use another view_robot_launch just for mapping issues]
 
 You should see something like this:
@@ -101,12 +107,12 @@ ros2 run nav2_map_server map_saver_cli -f <name of the map>
 ```
 You will see two new records, a .png and a .yaml If you see both and you can see in the .png your map you are done!
 
-If that's not your case, there is a launch named "map_saver.launch.py inside the package agricobiot_config. You will need to launch it and then call a service as the previous case in order to save the map. The only difference between them is that this last one uses a config file where the timeout is set to 5000 (which is more than enough to compute a big map as the one of the greenhouse or even bigger). In order to do it, you can type as follow:
+If that's not your case, there is a launch named "map_saver.launch.py inside the package map_saver. You will need to launch it and then call a service as the previous case in order to save the map. The only difference between them is that this last one uses a config file where the timeout is set to 5000 (which is more than enough to compute a big map as the one of the greenhouse or even bigger). In order to do it, you can type as follow:
 
 Terminal E:
 
 ```
-ros2 launch agricobiot_config map_saver.launch.py
+ros2 launch map_saver saver.launch.py
 ```
 
 Terminal F (remember to be in the directory where you want your map saved):
@@ -114,47 +120,22 @@ Terminal F (remember to be in the directory where you want your map saved):
 ```
 ros2 service call /map_saver/save_map nav2_msgs/srv/SaveMap "{map_topic: map, map_url: <map name>, image_format: pgm, map_mode: trinary, free_thresh: 0.25, occupied_thresh: 0.65}"
 ```
-### Localization
-In order to localize the robot, we need to provide the map generated using SLAM using map_server from nav2_map_server, and launch the amcl node configured as the previous ones, config file in the config directory in agricobiot_config. These two are supervised by a lifecycle_server (implementation of ROS2).
-
-Terminal A is the same as previous
-
-Terminal B
-
-```
-ros2  agricobiot_config view_robot_launch.py
-```
-You can change the config of rviz and use the one for localization, named  "localizer_config.rviz", or add the map inserting the map topic on it.
-
-Terminal C
-
-```
-ros2  agricobiot_config localization.launch.py
-```
-Now that all is set, you should see in the Terminal C a message like "AMCL cannot publish a pose or update the transform..." If this happens, don't worry, it is okey, you just need to set the estimation pose on RVIZ. Make sure the global frame is set to map, if not, you will see in the AMCL terminal that appears a message saying that the pose is being rejected because it needs to be publish over the frame map.
-
-In order to make the localization, we need to move the robot after setting the initial pose, with teleop as was explained in the previous sections.
-
-:exclamation::exclamation:Problems with this launch: As you can see, AMCL publish some topics like, particle_cloud and amcl_pose. These ones in RVIZ should look something like this: 
-![951536fa-4492-4696-915a-58a6e4074b0c](https://user-images.githubusercontent.com/98213868/192593694-0d5477c5-47db-4796-b37c-d5b4df85efbd.png)
-
-But in this case, you will see that it doesn't show any of them. The only thing I have being able to get is to see the amcl_pose as a small circle under the husky, which should be way bigger if it isn't located. So I think the problem resides in making the amcl work properly, feel free to touch the config files and make questions about it.
+This should let you save your map without problems.
 
 ### Navigation
-Everything is set up for the navigation stuff, but the AMCL problem needs to be solved before using this launch. But in resume, it is the localization launch adding the path_planner server, the bt_navigator and the controller for the autonomous movement. Lastly, the lifecycle manager has been updated in order that it manages also the new nodes.
+In order to use the navigation launch, please follow the next instructions.
 
+Terminal A:
 
+```
+ros2 launch husky_ual husky_navigation.py
+```
 
+You should have Gazebo and RVIZ, like the husky_simulation launch file, but this time two things changed. First, the robot in RVIZ doesn't pop u, but there is already a map of the greenhouse. You can't see the urdf robot model because you need to set its position, as shown in the memory.
 
-## Others
+Please try to be the most accourate possible setting the initial pose of the robot, remember that the localization package is not working properly, so the robot won't be able to localize for its own.
 
-Convert a ROS1 .bag into an MRPT .rawlog file:
+By the time you set the pose, the robot will spawn in that position, and all the navigation stack will start to work, showing global costmaps, local costmaps, etc.
 
-    rosbag2rawlog -w -f world \
-        -c agricobiot_config/config/config_rosbag2rawlog.yml \
-        -o output.rawlog \
-        INPUT.bag
-
-Then open with `RawLogViewer *.rawlog`.
-
+Now you can use whether the Nav2 Goal tool, or the Nav2Plugin in order to set some waypoints, to make a custom path.
 
