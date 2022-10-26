@@ -2,9 +2,16 @@
 This is a public repository which stores all the files required for the simulation of my final degree project, as well as some useful instructions to use the package. Please feel free to make issues regardind doubts whether if is for ROS2 issues, as well as this package.
 
 I publish all my project not also to show it to everyone, but also to improve this package and keep learning and improving!
-I have to credit my second tutor of the project, Francisco Jose Mañas Alvarez, who most helped me in developing this package, as well as being my master. 
 
-## Remember :exclamation:
+## :pencil2: Authors :pencil2:
+- Ángel López Gázquez, as the main developer.
+- Francisco José Mañas Alvarez, co-tutor of the final degree project, as well as contributor.
+- Jose Luis Blanco Claraco, contributor and overseer of the package.
+
+## :raised_hands: Credits :raised_hands:
+I have to credit my second tutor of the project, Francisco Jose Mañas Alvarez, who most helped me in developing this package, as well as being my master. Also thanks to Jose Luis Blanco, for being interested in the package even without being part of it, and helping me in the task of learning ROS2, C++, Python, Debug, MVSLAM, do I need to follow? (joke JL hehe, I think JC won't let me be that personal sadly).
+
+## DISCLAIMER :exclamation:
 This project was developed using Ubuntu 20.04 with ROS2 Foxy Devel. I may update it with the new Humble edition. Please stay tunned and feel free to contact me via Linkedin or via email if you are interested in it.
 
 ## Install :book:
