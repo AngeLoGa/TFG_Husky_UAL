@@ -4,7 +4,7 @@ This is a public repository which stores all the files required for the simulati
 I publish all my project not also to show it to everyone, but also to improve this package and keep learning and improving!
 I have to credit my second tutor of the project, Francisco Jose Mañas Alvarez, who most helped me in developing this package, as well as being my master. 
 
-## :exclamation: Remember :exclamation:
+## Remember :exclamation:
 This project was developed using Ubuntu 20.04 with ROS2 Foxy Devel. I may update it with the new Humble edition. Please stay tunned and feel free to contact me via Linkedin or via email if you are interested in it.
 
 ## Install :book:
